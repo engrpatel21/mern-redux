@@ -1,36 +1,37 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {getTodos} from '../rootReducer/todoActions'
-import todoReducer from '../rootReducer/todoReducer'
+import {getTodos, deleteTodo, addTodo} from '../rootReducer/todoActions'
 import PropTypes from 'prop-types'
 
 
 class TodoList extends Component {
- 
+    state = {
+        name: ''
+    }
 
     componentDidMount() {
         this.props.getTodos();
     }
 
     handleOnChange = e => {
-        const todoData = { ...this.state.todoData, [e.target.name]: e.target.value }
-        todoData.id = this.state.todos[this.state.todos.length - 1].id + 1
-        this.setState({ todoData: todoData })
+       
+        this.setState({ [e.target.name] : e.target.value })
+        console.log(this.state)
 
     }
 
     handleOnSubmit = e => {
         e.preventDefault()
-  
-    
+        this.props.addTodo(this.state)
     }
 
     handleDelete = (id) => {
-        this.setState({ todos: this.state.todos.filter(todo => todo.id !== id) })
+        this.props.deleteTodo(id)
     }
 
     formRef = React.createRef()
-    render() { 
+    render() {
+        const {todos} = this.props.todo
         return ( 
             <div className="container">
                 <div className="row">
@@ -45,15 +46,13 @@ class TodoList extends Component {
                     <div className="col-6">
                         <ul className="list-group">
                         <li className="list-group-item active">Todo List</li>
-                        {/* {this.state.todos.map(todo => {
-                            return <li className="list-group-item" key={todo.id}>{todo.name} <button className="btn btn-danger btn-sm right" onClick={()=>{this.handleDelete(todo.id)}} >X</button></li>
+                        {todos.map(todo => {
+                            return <li className="list-group-item" key={todo._id}>{todo.name} <button className="btn btn-danger btn-sm right" onClick={()=>{this.handleDelete(todo._id)}} >X</button></li>
                         })}
-                         */}
+                        
                         </ul>                        
                     </div>
                 </div>
-               
-
             </div>
         );
     }
@@ -68,5 +67,5 @@ const mapStateToProps = (state) => ({
     todo: state.todo
 })
 
-export default connect(mapStateToProps, {getTodos})(TodoList);
+export default connect(mapStateToProps, {getTodos, deleteTodo, addTodo})(TodoList);
 

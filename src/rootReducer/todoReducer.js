@@ -1,20 +1,34 @@
 /* eslint-disable import/no-anonymous-default-export */
-import {GET_TODO, ADD_TODO, DELETE_TODO} from './types'
+import {GET_TODO, ADD_TODO, DELETE_TODO, TODO_LOADING} from './types'
 
 const initialState = {
-    todos: [
-        { id: 1, name: 'todo1' },
-        { id: 2, name: 'todo2' },
-        { id: 3, name: 'todo3' },
-        { id: 4, name: 'todo4' }, 
-    ],
+    todos: [],
+    loading: false
 }
 
 export default function(state = initialState, action){
     switch (action.type) {
-        case 'GET_TODO':
+        case GET_TODO:
             return {
-                ...state
+                ...state,
+                todos: action.payload,
+                loading: false
+            }
+        case DELETE_TODO:
+            return {
+                ...state,
+                todos: state.todos.filter(todo => todo._id !== action.payload),
+                loadking: false
+            }
+        case ADD_TODO:
+            return {
+                ...state,
+                todos: [...state.todos, action.payload]
+            }
+        case TODO_LOADING:
+            return {
+                ...state,
+                loading: true
             }
         default:
             return state
