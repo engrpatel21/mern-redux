@@ -15,7 +15,7 @@ export const getTodos = () => dispatch => {
 export const deleteTodo = id => dispatch => {
     dispatch(todosLoading())
     axios
-        .get(`api/todos/${id}`)
+        .delete(`api/todos/${id}`)
         .then(res =>
             dispatch({
                 type: DELETE_TODO,
@@ -26,8 +26,8 @@ export const deleteTodo = id => dispatch => {
 
 export const addTodo = (name) => dispatch => {
     dispatch(todosLoading())
-    axios
-        .post('/api/todos', name)
+    const todo = name
+    axios.post('/api/todos', todo)
         .then(res =>
             dispatch({
                 type: ADD_TODO,

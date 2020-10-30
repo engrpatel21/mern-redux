@@ -15,10 +15,11 @@ export default function(state = initialState, action){
                 loading: false
             }
         case DELETE_TODO:
+            console.log(action.payload)
             return {
                 ...state,
                 todos: state.todos.filter(todo => todo._id !== action.payload),
-                loadking: false
+                loading: false
             }
         case ADD_TODO:
             return {

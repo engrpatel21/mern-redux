@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const todosCntrl = require('../../controllers/todos')
+const auth = require('../../config/auth')
 
 
 router.get('/', todosCntrl.index)

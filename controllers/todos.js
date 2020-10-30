@@ -9,8 +9,8 @@ module.exports = {
 }
 
 async function deleteTodo(req, res) {
-    await Todo.findByIdAndDelete(req.params.id)
-    res.status(200).json({})
+    const deletedTodo = await Todo.findByIdAndDelete(req.params.id)
+    res.status(200).json({deletedTodo})
 }
 
 async function updateTodo(req, res) {
@@ -24,6 +24,7 @@ async function showTodo(req, res) {
 }
 
 async function createTodo(req, res) {
+    console.log(req.body)
     const todo = await Todo.create(req.body)
     res.json(todo)
 }

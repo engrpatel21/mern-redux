@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 class TodoList extends Component {
     state = {
         name: ''
+
     }
 
     componentDidMount() {
@@ -23,6 +24,7 @@ class TodoList extends Component {
     handleOnSubmit = e => {
         e.preventDefault()
         this.props.addTodo(this.state)
+        this.setState({name: ''})
     }
 
     handleDelete = (id) => {
@@ -38,10 +40,11 @@ class TodoList extends Component {
                     <div className="col-6">
                         <form onSubmit={this.handleOnSubmit} ref={this.formRef}>
                             <div className="form-group">
-                                <input type="text" name="name" id="" className="form-control" placeholder="Name" onChange={this.handleOnChange}/>
+                                <input type="text" name="name" id="" className="form-control" placeholder="Name" onChange={this.handleOnChange} value={this.state.name}/>
                                 <button className="btn btn-success btn-sm">Add Todo</button>
                             </div>
                         </form>
+
                     </div>
                     <div className="col-6">
                         <ul className="list-group">
@@ -60,11 +63,14 @@ class TodoList extends Component {
 
 TodoList.propTypes = {
     getTodos: PropTypes.func.isRequired,
+    deleteTodo: PropTypes.func.isRequired,
+    addTodo: PropTypes.func.isRequired,
     todo: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    todo: state.todo
+    todo: state.todo,
+    auth: state.auth,
 })
 
 export default connect(mapStateToProps, {getTodos, deleteTodo, addTodo})(TodoList);
